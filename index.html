@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="rulesText">
+    <h1 class="text">数字あてゲーム</h1>
+    <p class="rule">このゲームは、HTMLとCSS、Javascript等のプログラミング言語を使用して制作した数字あてゲームです。</p><br>
+    <p class="rule">ランダムな1～100の数字を当ててみましょう!</p><br>
+    <p class="rule">数字を入力するとそれよりも正解が大きいか小さいか、もしくは正解かどうかを表示します。</p>
+  </div>
+  <div class="systems">
+    <p>↓ここに予想する数字を入力↓</p>
+    <input type="text" id="guessNum" class="guessBox"><br>
+    <button id="start" class="start">Start!</button>
+    <button id="check" class="check">Check</button>
+    <p id="checkResult"></p>
+  </div>
+
+  <script>
+    'use strict';
+
+    //宣言シリーズ
+    const start = document.getElementById('start');
+    const guessNum = document.getElementById('guessNum');
+    const check = document.getElementById('check');
+    const checkResult = document.getElementById('checkResult');
+
+    const larger = () => {
+      checkResult.textContent = '残念！ 答えはもっと小さな数字です';
+    }
+
+    const smaller = () => {
+      checkResult.textContent = '残念！ 答えはもっと大きな数字です';
+    }
+
+    //スタート処理
+    const init = () => {
+      document.onselectstart = () => {
+        return false;
+      }
+
+      let answerNum = Math.floor(Math.random() * 100);
+
+      start.addEventListener('click', () => {
+        window.location.reload();
+      });
+
+      check.addEventListener('click', () => {
+      let userGuess = parseInt(guessNum.value, 10);
+
+      if (userGuess === answerNum) {
+        checkResult.textContent = 'おめでとう！ 正解です';
+      }
+      else if (userGuess < answerNum) {
+        smaller();
+      }
+      else {
+        larger();
+      }
+      });
+    }
+
+    //完全実行
+    window.onload = () => {
+      init();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  text-align: center;
+}
+
+.rulesText {
+  width: 80%;
+  margin: 36px auto;
+  background-color: #fe926c;
+  border-radius: 30px;
+  border: #6865a8 4px solid;
+}
+
+.systems {
+  width: 50%;
+  margin: 0 auto;
+}
+
+.guessBox {
+  all: unset;
+  width: 48%;
+  height: 48px;
+  border: 4px black double;
+  line-height: 48px;
+  font-size: 36px;
+  background-color: #ccc;
+}
+
+.start, .check{
+  all: unset;
+  margin-top: 6px;
+  width: 50%;
+  background-color: #6ed3c3;
+  border: #000 solid 1px;
+}
