@@ -14,21 +14,25 @@
     <p class="rule">数字を入力するとそれよりも正解が大きいか小さいか、もしくは正解かどうかを表示します。</p>
   </div>
   <div class="systems">
-    <p>↓ここに予想する数字を入力↓</p>
+    <button id="start" class="start">Start!</button><br>
     <input type="text" id="guessNum" class="guessBox"><br>
-    <button id="start" class="start">Start!</button>
-    <button id="check" class="check">Check</button>
+    <button id="check" class="check" disabled>Check</button>
     <p id="checkResult"></p>
+    <p id="remainingGuesses"></p>
   </div>
 
   <script>
     'use strict';
 
-    //宣言シリーズ
+    // 宣言シリーズ
     const start = document.getElementById('start');
     const guessNum = document.getElementById('guessNum');
     const check = document.getElementById('check');
     const checkResult = document.getElementById('checkResult');
+    const remainingGuesses = document.getElementById('remainingGuesses');
+
+    let answerNum; // 答えの数字を保持
+    let attempts;  // 試行回数
 
     const larger = () => {
       checkResult.textContent = '残念！ 答えはもっと小さな数字です';
@@ -38,36 +42,64 @@
       checkResult.textContent = '残念！ 答えはもっと大きな数字です';
     }
 
-    //スタート処理
+    const updateRemainingGuesses = () => {
+      remainingGuesses.textContent = `残りの回数: ${5 - attempts} 回`;
+    }
+
+    const resetGame = () => {
+      // 初期化処理
+      attempts = 0;
+      answerNum = Math.floor(Math.random() * 100) + 1; // 1～100のランダムな数字
+      checkResult.textContent = '';
+      guessNum.value = '';
+      updateRemainingGuesses();
+      check.disabled = false;
+    }
+
+    // スタート処理
     const init = () => {
-      document.onselectstart = () => {
-        return false;
-      }
-
-      let answerNum = Math.floor(Math.random() * 100);
-
-      start.addEventListener('click', () => {
-        window.location.reload();
-      });
+      // ゲームを初期化
+      resetGame();
 
       check.addEventListener('click', () => {
-      let userGuess = parseInt(guessNum.value, 10);
+        let userGuess = parseInt(guessNum.value, 10);
 
-      if (userGuess === answerNum) {
-        checkResult.textContent = 'おめでとう！ 正解です';
-      }
-      else if (userGuess < answerNum) {
-        smaller();
-      }
-      else {
-        larger();
-      }
+        if (isNaN(userGuess)) {
+          checkResult.textContent = '数字を入力してください';
+          return;
+        }
+
+        attempts++;
+
+        if (userGuess === answerNum) {
+          checkResult.textContent = 'おめでとう！ 正解です';
+          check.disabled = true; // 正解したらチェックボタンを無効化
+          return; // 正解した場合は以降の処理をスキップ
+        } 
+        else if (userGuess < answerNum) {
+          smaller();
+        } 
+        else {
+          larger();
+        }
+
+        if (attempts >= 5) {
+          check.disabled = true;
+          checkResult.textContent += ' ゲームオーバー！ 正解は ' + answerNum + ' でした。';
+        }
+
+        updateRemainingGuesses(); // 残り回数を更新
       });
     }
 
-    //完全実行
+    // 完全実行
     window.onload = () => {
-      init();
+      // スタートボタンでゲーム開始
+      start.addEventListener('click', () => {
+        resetGame(); // ゲームをリセット
+        check.disabled = false; // チェックボタンを有効化
+      });
+      init(); // 初期化
     }
   </script>
 </body>
