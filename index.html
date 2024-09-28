@@ -43,7 +43,7 @@
     }
 
     const updateRemainingGuesses = () => {
-      remainingGuesses.textContent = `残りの回数: ${5 - attempts} 回`;
+      remainingGuesses.textContent = `残りの回数: ${6 - attempts} 回`;
     }
 
     const resetGame = () => {
@@ -83,7 +83,7 @@
           larger();
         }
 
-        if (attempts >= 5) {
+        if (attempts >= 6) {
           check.disabled = true;
           checkResult.textContent += ' ゲームオーバー！ 正解は ' + answerNum + ' でした。';
         }
