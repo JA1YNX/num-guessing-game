@@ -24,6 +24,10 @@
   <script>
     'use strict';
 
+    document.onselectstart = () => {
+      return false;
+    }
+
     // 宣言シリーズ
     const start = document.getElementById('start');
     const guessNum = document.getElementById('guessNum');
@@ -32,7 +36,7 @@
     const remainingGuesses = document.getElementById('remainingGuesses');
 
     let answerNum; // 答えの数字を保持
-    let attempts;  // 試行回数
+    let guessingTimes;  // 試行回数
 
     const larger = () => {
       checkResult.textContent = '残念！ 答えはもっと小さな数字です';
@@ -43,12 +47,12 @@
     }
 
     const updateRemainingGuesses = () => {
-      remainingGuesses.textContent = `残りの回数: ${6 - attempts} 回`;
+      remainingGuesses.textContent = `残りの回数: ${6 - guessingTimes} 回`;
     }
 
     const resetGame = () => {
       // 初期化処理
-      attempts = 0;
+      guessingTimes = 0;
       answerNum = Math.floor(Math.random() * 100) + 1; // 1～100のランダムな数字
       checkResult.textContent = '';
       guessNum.value = '';
@@ -69,7 +73,7 @@
           return;
         }
 
-        attempts++;
+        guessingTimes++;
 
         if (userGuess === answerNum) {
           checkResult.textContent = 'おめでとう！ 正解です';
@@ -83,7 +87,7 @@
           larger();
         }
 
-        if (attempts >= 6) {
+        if (guessingTimes >= 6) {
           check.disabled = true;
           checkResult.textContent += ' ゲームオーバー！ 正解は ' + answerNum + ' でした。';
         }
