@@ -166,4 +166,12 @@
     background-color: #6ed3c3;
     border: #000 solid 1px;
   }
+
+  .remainingGuesses {
+    font-size: 48px;
+    border-radius: 10px;
+    background-color: yellow;
+    color: yellow;
+    background-color: red;
+  }
 }
